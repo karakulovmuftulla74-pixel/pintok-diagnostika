@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="kaa">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0A0F1C">
+  <title>Еркеклик күши тести — PINTOK клиникасы</title>
+  <meta name="description" content="Жынысый ағзаның қаттылығы жоғалды ма ямаса улыўма турмай атыр ма? Бир минутлық онлайн тест себебин айтады. Нәтийжени тек сиз көресиз.">
+  <link rel="icon" type="image/png" href="assets/pintok-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/doktor.jpg">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="top-in">
+      <a class="brand" href="#top">
+        <span class="brand-ico"><img src="assets/pintok-icon.png" alt="PINTOK" width="22" height="22"></span>
+        <span class="brand-txt"><b data-no-translit="1">PINTOK</b> <span>КЛИНИКАСЫ</span></span>
+      </a>
+      <div class="top-r">
+        <span id="lang-slot"></span>
+        <span class="priv">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="10" width="16" height="11" rx="2"></rect>
+            <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+          </svg>
+          <span>Нәтийже тек сизге</span>
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" id="top">
+    <!-- 1. БАС БЕТ (LANDING / INTRO) -->
+    <section class="screen" id="s-intro">
+      <div class="hero" id="hero">
+        <img class="photo" src="assets/doktor.jpg" alt="" width="230" height="260">
+
+        <div class="hero-top">
+          <span class="badge-free">БИЙПУЛ тест</span>
+          <p class="eyebrow">Жынысый әззилик · терең таллаў тести</p>
+        </div>
+
+        <h1 class="long">Жынысый ағзаның қаттылығы жоғалды ма ямаса улыўма турмай атыр ма?</h1>
+        <p class="lead">Бир минутлық онлайн тест сизге анық себеп ҳәм шешимлерди айтады!</p>
+
+        <ul class="who" id="who"></ul>
+
+        <button type="button" class="btn hero-btn" id="hero-cta" data-start>
+          <span><span class="bp">БИЙПУЛ</span> тестти баслаў →</span>
+        </button>
+        <p class="hint">10 сораў · 1 минут · Онлайн тест бийпул · Нәтийже дәрҳал экраныңызда</p>
+
+        <p class="save">
+          Анық себебин билсеңиз, керексиз дәри, спрей ҳәм витаминлерге кететуғын <b>миллионлаған сумды</b> үнемлеп қаласыз!
+        </p>
+      </div>
+
+      <!-- Бөлим 01 -->
+      <div class="sec">
+        <div class="sec-h">
+          <span class="sn">01</span>
+          <h3>Тест соңында не аласыз</h3>
+        </div>
+        <div class="card">
+          <ul class="gets" id="gets"></ul>
+        </div>
+      </div>
+
+      <!-- Бөлим 02 -->
+      <div class="sec">
+        <div class="sec-h">
+          <span class="sn">02</span>
+          <h3>Тестти ким дүзген</h3>
+        </div>
+        <div class="card">
+          <div class="doc">
+            <img class="ava" src="assets/doktor.jpg" alt="PINTOK клиникасының бас урологы" width="72" height="72">
+            <div>
+              <p class="dname">PINTOK клиникасының бас урологы</p>
+              <p class="drole">Уролог-хирург, андролог. Европа урологлар жәмийети стандартлары тийкарында жумыс ислейди.</p>
+            </div>
+          </div>
+          <div class="trust" id="trust"></div>
+          <div class="addr-box">
+            <span class="addr-ic" aria-hidden="true">📍</span>
+            <div>
+              <b>Мәнзил:</b> Шымбай районы, 5-этажлы емлеўхана қасында жайласқан PINTOK клиникасы
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Бөлим 03 -->
+      <div class="sec">
+        <div class="sec-h">
+          <span class="sn">03</span>
+          <h3>Наўқаслар ең көп сорайтуғын сораўлар</h3>
+        </div>
+        <div class="faq" id="faq"></div>
+      </div>
+
+      <div class="sec">
+        <button type="button" class="btn hero-btn" data-start>
+          <span><span class="bp">БИЙПУЛ</span> тестти баслаў →</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 2. ТЕСТ ЕКРАНЫ (10 СОРАЎ) -->
+    <section class="screen qwrap" id="s-q" hidden>
+      <div class="qhead">
+        <div class="num" id="pnum">01<small>/ 10</small></div>
+        <div class="qtag">БИЙПУЛ тест</div>
+      </div>
+      <div class="segs" id="segs" aria-hidden="true"></div>
+      <h2 class="q" id="qtxt"></h2>
+      <div class="opts" id="opts"></div>
+      <button type="button" class="back" id="back" hidden>← Алдыңғы сораў</button>
+    </section>
+
+    <!-- 3. НӘТИЙЖЕ ҲӘМ КӨРИККЕ ЖАЗЫЛЫЎ ЕКРАНЫ -->
+    <section class="screen" id="s-res" hidden>
+      <div class="rhead">
+        <p class="eyebrow">ТЕСТ ЖУЎМАҚЛАНДЫ</p>
+        <h2>Сизиң нәтийжеңиз</h2>
+      </div>
+
+      <div class="lv" id="lvbox">
+        <p class="eyebrow">ҲӘЗИРГИ ЖАҒДАЙДА СИЗДЕ</p>
+        <div class="lv-t" id="lvname"></div>
+        <div class="meter" aria-hidden="true">
+          <div class="mseg" data-lv="1">
+            <div class="bar"></div>
+            <div class="ml">ЖЕҢИЛ</div>
+          </div>
+          <div class="mseg" data-lv="2">
+            <div class="bar"></div>
+            <div class="ml">ОРТАША</div>
+          </div>
+          <div class="mseg" data-lv="3">
+            <div class="bar"></div>
+            <div class="ml">АЎЫР</div>
+          </div>
+        </div>
+        <p class="lv-d" id="lvdesc"></p>
+      </div>
+
+      <!-- Карточка 01 -->
+      <div class="sec">
+        <div class="sec-h">
+          <span class="sn">01</span>
+          <h3>Жынысый әззиликтиң үш түрли көриниси бар ҳәм бәрине шешим бар:</h3>
+        </div>
+        <div class="card">
+          <div class="tlist" id="types"></div>
+        </div>
+      </div>
+
+      <!-- Карточка 02 -->
+      <div class="sec">
+        <div class="sec-h">
+          <span class="sn">02</span>
+          <h3>Бул жағдайда сизге ең анық жәрдем — дурыс диагноз, яғный:</h3>
+        </div>
+        <div class="card">
+          <div class="steps" id="steps"></div>
+          <div class="why" id="why"></div>
+        </div>
+      </div>
+
+      <!-- Клиникада қабыллаў ҳәм мәнзил карточкасы (пуллы тийкарда) -->
+      <div class="free">
+        <span class="ftag" id="ftag"></span>
+        <h3 id="ftitle"></h3>
+        <ul id="flist"></ul>
+        <div class="addr-box addr-in-offer">
+          <span class="addr-ic" aria-hidden="true">📍</span>
+          <div><b>Мәнзил:</b> <span id="faddr"></span></div>
+        </div>
+        <p class="fsub" id="fnote"></p>
+      </div>
+
+      <!-- Көрикке жазылыў ақ формасы -->
+      <div class="gate" id="gate">
+        <div class="gate-brand">
+          <img src="assets/pintok-icon.png" alt="PINTOK" width="32" height="32">
+          <div>
+            <div class="gb-name"><span data-no-translit="1">PINTOK</span> КЛИНИКАСЫ</div>
+            <div class="gb-sub">Көрикке алдыннан жазылыў</div>
+          </div>
+        </div>
+
+        <p class="eyebrow">КӨРИККЕ АЛДЫННАН ЖАЗЫЛЫЎ</p>
+        <p class="glead">
+          Атыңыз ҳәм телефон номериңизди жазып, <b>«Жибериў»</b> түймесин басың. Арзаңыз дәрҳал
+          <b>PINTOK клиникасына</b> түседи ҳәм администратор сиз менен байланысады.
+        </p>
+
+        <div class="gate-addr">
+          <span aria-hidden="true">📍</span>
+          <span><b>Мәнзил:</b> Шымбай районы, 5-этажлы емлеўхана қасында жайласқан PINTOK клиникасы</span>
+        </div>
+
+        <div class="field">
+          <label class="flabel" for="name">Атыңыз</label>
+          <input type="text" id="name" name="name" autocomplete="name" placeholder="Атыңызды жазың">
+        </div>
+
+        <div class="field">
+          <label class="flabel" for="phone">Телефон номериңиз</label>
+          <input type="tel" id="phone" name="phone" inputmode="numeric" autocomplete="tel" placeholder="+998 __ ___ __ __">
+        </div>
+
+        <p class="err" id="perr" hidden></p>
+
+        <button type="button" class="btn" id="send">Жибериў →</button>
+
+        <p class="phone-direct">
+          Ямаса тиккелей қоңыраў: <a href="tel:+998905768080" data-no-translit="1">+998 90 576-80-80</a>
+        </p>
+
+        <div class="gpriv">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"></path>
+            <path d="M9 12l2 2 4-4"></path>
+          </svg>
+          <span>Номериңиз тек PINTOK клиникасы администраторында қалады. Мағлыўматларыңыздың сыр сақланыўына кепиллик беремиз.</span>
+        </div>
+      </div>
+
+      <!-- Telegram байланыс карточкасы -->
+      <div class="guide">
+        <div class="pdf vid-logo" aria-hidden="true">
+          <img src="assets/pintok-icon.png" alt="PINTOK" width="40" height="40">
+        </div>
+        <div>
+          <p class="eyebrow" id="gtag"></p>
+          <p class="gt" id="gtitle"></p>
+          <p class="gd" id="gdesc"></p>
+          <p class="gf" id="gfoot"></p>
+        </div>
+      </div>
+
+      <button type="button" class="restart" id="restart">Тестти қайтадан баслаў</button>
+    </section>
+
+    <!-- 4. ТАСТЫЙЫҚЛАЎ ЕКРАНЫ -->
+    <section class="screen" id="s-done" hidden>
+      <div class="done-box">
+        <div class="done-head">
+          <div class="done-ok" aria-hidden="true">✓</div>
+          <div class="done-logo-pill">
+            <img src="assets/pintok-icon.png" alt="PINTOK" width="26" height="26">
+            <span data-no-translit="1">PINTOK</span>
+          </div>
+        </div>
+        <p class="eyebrow">АРЗА ҚАБЫЛ ЕТИЛДИ · PINTOK КЛИНИКАСЫ</p>
+        <h2>Рахмет! Арзаңыз жиберилди</h2>
+        <p class="done-sub">PINTOK клиникасының администраторы жақын ўақыт ишинде сиз менен байланысып, көрик ўақтын белгилейди.</p>
+
+        <div class="done-info">
+          <div>Аты: <b id="donename"></b></div>
+          <div>Телефон: <b id="donephone" data-no-translit="1"></b></div>
+          <div>Нәтийже: <b id="donelevel"></b></div>
+          <div>Мәнзил: <b>Шымбай районы, 5-этажлы емлеўхана қасында жайласқан PINTOK клиникасы</b></div>
+        </div>
+
+        <div class="done-actions">
+          <a class="btn sec" id="callbtn" href="tel:+998905768080">
+            📞 Клиникаға қоңыраў: +998 90 576-80-80
+          </a>
+          <a class="btn ghost" id="tgbtn" href="https://t.me/+998905768080" target="_blank" rel="noopener noreferrer">
+            Telegramнан тиккелей жазыў (+998 90 576-80-80)
+          </a>
+        </div>
+
+        <p class="days" id="days"></p>
+      </div>
+
+      <div class="card how-card">
+        <h3>Сиз менен қалай байланысқан қолайлы?</h3>
+        <div class="opts" id="how"></div>
+        <div class="final-msg" id="final" hidden>
+          Таңлаўыңыз сақланды: <b id="howtxt"></b>. PINTOK клиникасы администраторы сиз таңлаған усылда байланысады.
+        </div>
+      </div>
+
+      <button type="button" class="restart" id="restart2">Тестти қайтадан баслаў</button>
+    </section>
+
+    <footer>
+      <div class="flogo-wrap">
+        <img src="assets/pintok-logo.png" alt="PINTOK клиникасы" width="84" height="104">
+      </div>
+      <div class="fbrand">PINTOK КЛИНИКАСЫ</div>
+      <p class="faddr">📍 Мәнзил: Шымбай районы, 5-этажлы емлеўхана қасында жайласқан PINTOK клиникасы</p>
+      <a class="fphone" href="tel:+998905768080" data-no-translit="1">+998 90 576-80-80</a>
+      <p class="fnote">
+        Еркеклер саламатлығы орайы · Сайттағы тест танысыў ушын, анық диагноз тек доктор көригинде қойылады · Мағлыўматларыңыз сыр сақланады ҳәм үшинши шахсларға берилмейди.
+      </p>
+    </footer>
+  </main>
+
+  <div class="cta-bar" id="cta-bar">
+    <div class="wrap">
+      <button type="button" class="btn" data-start>
+        <span><span class="bp">БИЙПУЛ</span> тестти баслаў →</span>
+      </button>
+    </div>
+  </div>
+
+  <script src="assets/config.js"></script>
+  <script src="assets/scoring.js"></script>
+  <script src="content/jz.js"></script>
+  <script src="assets/translit.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

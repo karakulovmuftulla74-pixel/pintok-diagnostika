@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/jinsiy-zaiflik", "destination": "/index.html" }
+  ]
+}
