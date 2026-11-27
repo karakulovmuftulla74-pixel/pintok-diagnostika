@@ -8,10 +8,11 @@ function esc(str) {
 function formatLeadHtml(data) {
   var clinic = esc(data.clinicName || "PINTOK клиникасы");
   var addr = esc(data.address || "Шымбай районы, 5-этажлы емлеўхана қасында жайласқан PINTOK клиникасы");
+  var tag = data.testTitle ? " (" + esc(data.testTitle) + ")" : "";
 
   if (data.stage === "pre_test") {
     return [
-      "📝 <b>ТЕСТ БАСЛАНДЫ — " + clinic + "</b>",
+      "📝 <b>ТЕСТ БАСЛАНДЫ — " + clinic + tag + "</b>",
       "",
       "👤 <b>Аты:</b> " + esc(data.name),
       "📞 <b>Телефон:</b> " + esc(data.phoneDisplay || data.phone),
@@ -21,7 +22,7 @@ function formatLeadHtml(data) {
 
   if (data.stage === "quiz_result") {
     var qLines = [
-      "✅ <b>ТЕСТ ЖУЎМАҚЛАНДЫ — " + clinic + "</b>",
+      "✅ <b>ТЕСТ ЖУЎМАҚЛАНДЫ — " + clinic + tag + "</b>",
       "",
       "👤 <b>Аты:</b> " + esc(data.name),
       "📞 <b>Телефон:</b> " + esc(data.phoneDisplay || data.phone),
@@ -57,7 +58,7 @@ function formatLeadHtml(data) {
   }
 
   var lines = [
-    "🩺 <b>ЖАҢА АРЗА — " + clinic + "</b>",
+    "🩺 <b>ЖАҢА АРЗА — " + clinic + tag + "</b>",
     "",
     "👤 <b>Аты:</b> " + esc(data.name),
     "📞 <b>Телефон:</b> " + esc(data.phoneDisplay || data.phone),
