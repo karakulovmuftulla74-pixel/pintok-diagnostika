@@ -1,5 +1,6 @@
 {
   "rewrites": [
-    { "source": "/jinsiy-zaiflik", "destination": "/index.html" }
+    { "source": "/jinsiy-zaiflik", "destination": "/index.html" },
+    { "source": "/kardiologiya", "destination": "/kardiologiya.html" }
   ]
 }
