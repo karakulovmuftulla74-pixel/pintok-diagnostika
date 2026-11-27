@@ -19,6 +19,33 @@ function formatLeadHtml(data) {
     ].join("\n");
   }
 
+  if (data.stage === "quiz_result") {
+    var qLines = [
+      "✅ <b>ТЕСТ ЖУЎМАҚЛАНДЫ — " + clinic + "</b>",
+      "",
+      "👤 <b>Аты:</b> " + esc(data.name),
+      "📞 <b>Телефон:</b> " + esc(data.phoneDisplay || data.phone),
+      "📊 <b>Нәтийже:</b> " + esc(data.levelName || "—"),
+      ""
+    ];
+    if (Array.isArray(data.answers) && data.answers.length) {
+      qLines.push("📋 <b>10 сораў жуўаплары:</b>");
+      for (var k = 0; k < data.answers.length; k++) {
+        var item = data.answers[k];
+        qLines.push((k + 1) + ". <b>" + esc(item.q) + "</b>\n   ↳ " + esc(item.a));
+      }
+    } else {
+      if (data.age) qLines.push("🎂 <b>Жасы:</b> " + esc(data.age));
+      if (data.since) qLines.push("⏱ <b>Қашаннан берли:</b> " + esc(data.since));
+      if (data.disease) qLines.push("🫀 <b>Диабет / Қан басымы:</b> " + esc(data.disease));
+      if (data.drug) qLines.push("💊 <b>Дәри сынап көрген бе:</b> " + esc(data.drug));
+      if (data.worry) qLines.push("💬 <b>Тийкарғы қәўетер:</b> " + esc(data.worry));
+    }
+    qLines.push("");
+    qLines.push("📍 <i>" + addr + "</i>");
+    return qLines.join("\n");
+  }
+
   if (data.stage === "contact") {
     return [
       "📲 <b>Байланыс усылы таңланды — " + clinic + "</b>",
