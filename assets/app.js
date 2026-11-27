@@ -3,11 +3,13 @@
   var C = window.CONTENT || {};
   var LETTERS = ["A", "B", "C", "D", "E"];
   var DONE_KEY = "pintok_kaa_done_jz";
+  var USER_KEY = "pintok_kaa_user_jz";
 
   var state = {
     step: 0,
     answers: [],
     result: null,
+    user: null,
     submitting: false
   };
 
@@ -60,6 +62,14 @@
   }
 
   function buildPlainMessage(payload) {
+    if (payload.stage === "pre_test") {
+      return [
+        "📝 ТЕСТ БАСЛАНДЫ — " + (CFG.CLINIC_NAME || "PINTOK клиникасы"),
+        "",
+        "Аты: " + payload.name,
+        "Телефон: " + payload.phoneDisplay
+      ].join("\n");
+    }
     if (payload.stage === "contact") {
       return [
         "📲 Байланыс усылы таңланды — " + (CFG.CLINIC_NAME || "PINTOK клиникасы"),
@@ -436,7 +446,120 @@
     io.observe(heroCta);
   }
 
+  function openPreGate() {
+    var preName = $("pre-name");
+    var prePhone = $("pre-phone");
+    var preErr = $("pre-err");
+    if (preErr) preErr.hidden = true;
+    if (state.user) {
+      if (preName && !preName.value.trim()) preName.value = state.user.name;
+      if (prePhone && !prePhone.value.trim()) prePhone.value = state.user.phoneDisplay;
+    }
+    showScreen("s-pregate");
+    if (preName) {
+      setTimeout(function () { preName.focus(); }, 120);
+    }
+  }
+
+  function setupPreGate() {
+    var preName = $("pre-name");
+    var prePhone = $("pre-phone");
+    var preErr = $("pre-err");
+    var preSubmit = $("pre-submit");
+    var preBack = $("pre-back");
+    if (!preName || !prePhone || !preSubmit) return;
+
+    prePhone.addEventListener("focus", function () {
+      if (!prePhone.value.trim()) {
+        prePhone.value = "+998 ";
+      }
+    });
+
+    prePhone.addEventListener("input", function () {
+      var digits = extract9Digits(prePhone.value);
+      prePhone.value = digits.length ? formatPhoneDigits(digits) : "+998 ";
+      if (preErr) preErr.hidden = true;
+    });
+
+    preName.addEventListener("input", function () {
+      if (preErr) preErr.hidden = true;
+    });
+
+    function handlePreSubmit() {
+      var nameVal = preName.value.trim();
+      var digits = extract9Digits(prePhone.value);
+
+      if (nameVal.length < 2) {
+        preErr.textContent = "Өтиниш, атыңызды жазың.";
+        preErr.hidden = false;
+        if (window.TRANSLIT) window.TRANSLIT.refresh();
+        preName.focus();
+        return;
+      }
+      if (digits.length !== 9) {
+        preErr.textContent = "Номер толық емес. +998 ден кейин 9 сан киргизиң.";
+        preErr.hidden = false;
+        if (window.TRANSLIT) window.TRANSLIT.refresh();
+        prePhone.focus();
+        return;
+      }
+
+      preErr.hidden = true;
+      var phoneFull = "+998" + digits;
+      var phoneFormatted = formatPhoneDigits(digits);
+
+      state.user = {
+        name: nameVal,
+        phone: phoneFull,
+        phoneDisplay: phoneFormatted,
+        ts: Date.now()
+      };
+      try {
+        sessionStorage.setItem(USER_KEY, JSON.stringify(state.user));
+      } catch (e) {}
+
+      // Pre-fill end-of-test booking form so user doesn't need to retype
+      var endName = $("name");
+      var endPhone = $("phone");
+      if (endName) endName.value = nameVal;
+      if (endPhone) endPhone.value = phoneFormatted;
+
+      // Notify clinic bot immediately that user started the test
+      sendLeadToServer({
+        stage: "pre_test",
+        clinicName: CFG.CLINIC_NAME,
+        address: CFG.CLINIC_ADDRESS,
+        name: nameVal,
+        phone: phoneFull,
+        phoneDisplay: phoneFormatted,
+        lang: window.TRANSLIT ? window.TRANSLIT.getLang() : "cyr",
+        ts: Date.now()
+      });
+
+      startQuiz();
+    }
+
+    preSubmit.addEventListener("click", handlePreSubmit);
+    preName.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") { e.preventDefault(); prePhone.focus(); }
+    });
+    prePhone.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") { e.preventDefault(); handlePreSubmit(); }
+    });
+
+    if (preBack) {
+      preBack.addEventListener("click", function () {
+        showScreen("s-intro");
+      });
+    }
+  }
+
   function startQuiz() {
+    // Strict guard: never allow entering the test without valid Name + Phone
+    if (!state.user || !state.user.name || String(state.user.name).trim().length < 2 || extract9Digits(state.user.phone).length !== 9) {
+      openPreGate();
+      return;
+    }
     state.step = 0;
     state.answers = [];
     state.result = null;
@@ -447,12 +570,25 @@
 
   function init() {
     renderIntro();
+    setupPreGate();
     setupBookingForm();
     setupStickyCta();
 
+    try {
+      var savedUser = sessionStorage.getItem(USER_KEY);
+      if (savedUser) {
+        var u = JSON.parse(savedUser);
+        if (u && u.name && u.phone && u.ts && Date.now() - u.ts < 3600000) {
+          state.user = u;
+          if ($("name")) $("name").value = u.name;
+          if ($("phone")) $("phone").value = u.phoneDisplay || u.phone;
+        }
+      }
+    } catch (e) {}
+
     var startButtons = document.querySelectorAll("[data-start]");
     for (var i = 0; i < startButtons.length; i++) {
-      startButtons[i].addEventListener("click", startQuiz);
+      startButtons[i].addEventListener("click", openPreGate);
     }
 
     $("back").addEventListener("click", function () {
