@@ -70,6 +70,22 @@
         "Телефон: " + payload.phoneDisplay
       ].join("\n");
     }
+    if (payload.stage === "quiz_result") {
+      var qLines = [
+        "✅ ТЕСТ ЖУЎМАҚЛАНДЫ — " + (CFG.CLINIC_NAME || "PINTOK клиникасы"),
+        "",
+        "Аты: " + payload.name,
+        "Телефон: " + payload.phoneDisplay,
+        "Нәтийже: " + payload.levelName,
+        ""
+      ];
+      if (Array.isArray(payload.answers)) {
+        for (var i = 0; i < payload.answers.length; i++) {
+          qLines.push((i + 1) + ". " + payload.answers[i].q + " -> " + payload.answers[i].a);
+        }
+      }
+      return qLines.join("\n");
+    }
     if (payload.stage === "contact") {
       return [
         "📲 Байланыс усылы таңланды — " + (CFG.CLINIC_NAME || "PINTOK клиникасы"),
@@ -242,6 +258,35 @@
     var scored = window.scoreJZ(state.answers);
     var lvObj = C.levels[scored.lv];
     state.result = { sum: scored.sum, lv: scored.lv, info: lvObj };
+
+    // Automatically send full 10-question test answers & score to Telegram immediately
+    if (state.user && state.user.name && state.user.phone) {
+      var detailedAnswers = (C.questions || []).map(function (qObj, idx) {
+        return {
+          q: qObj.q,
+          a: getAnswerLabel(idx) || "—"
+        };
+      });
+      sendLeadToServer({
+        stage: "quiz_result",
+        clinicName: CFG.CLINIC_NAME,
+        address: CFG.CLINIC_ADDRESS,
+        name: state.user.name,
+        phone: state.user.phone,
+        phoneDisplay: state.user.phoneDisplay || state.user.phone,
+        level: scored.lv,
+        levelName: lvObj.name,
+        sum: scored.sum,
+        age: getAnswerLabel(0),
+        since: getAnswerLabel(1),
+        disease: getAnswerLabel(7),
+        drug: getAnswerLabel(8),
+        worry: getAnswerLabel(9),
+        answers: detailedAnswers,
+        lang: window.TRANSLIT ? window.TRANSLIT.getLang() : "cyr",
+        ts: Date.now()
+      });
+    }
 
     var lvBox = $("lvbox");
     lvBox.style.setProperty("--c", lvObj.color);
