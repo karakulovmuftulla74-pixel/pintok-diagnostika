@@ -2,8 +2,10 @@
   var CFG = window.CONFIG || {};
   var C = window.CONTENT || {};
   var LETTERS = ["A", "B", "C", "D", "E"];
-  var DONE_KEY = "pintok_kaa_done_jz";
-  var USER_KEY = "pintok_kaa_user_jz";
+  var DIR = C.direction || "jz";
+  var DONE_KEY = "pintok_kaa_done_" + DIR;
+  var USER_KEY = "pintok_kaa_user_" + DIR;
+  var TEST_TITLE = C.telegramTag || "Урология тести";
 
   var state = {
     step: 0,
@@ -269,6 +271,7 @@
       });
       sendLeadToServer({
         stage: "quiz_result",
+        testTitle: TEST_TITLE,
         clinicName: CFG.CLINIC_NAME,
         address: CFG.CLINIC_ADDRESS,
         name: state.user.name,
@@ -437,6 +440,7 @@
 
       var payload = {
         stage: "lead",
+        testTitle: TEST_TITLE,
         clinicName: CFG.CLINIC_NAME,
         address: CFG.CLINIC_ADDRESS,
         name: nameVal,
@@ -572,6 +576,7 @@
       // Notify clinic bot immediately that user started the test
       sendLeadToServer({
         stage: "pre_test",
+        testTitle: TEST_TITLE,
         clinicName: CFG.CLINIC_NAME,
         address: CFG.CLINIC_ADDRESS,
         name: nameVal,
