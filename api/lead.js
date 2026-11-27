@@ -9,6 +9,16 @@ function formatLeadHtml(data) {
   var clinic = esc(data.clinicName || "PINTOK клиникасы");
   var addr = esc(data.address || "Шымбай районы, 5-этажлы емлеўхана қасында жайласқан PINTOK клиникасы");
 
+  if (data.stage === "pre_test") {
+    return [
+      "📝 <b>ТЕСТ БАСЛАНДЫ — " + clinic + "</b>",
+      "",
+      "👤 <b>Аты:</b> " + esc(data.name),
+      "📞 <b>Телефон:</b> " + esc(data.phoneDisplay || data.phone),
+      "ℹ️ <i>Наўқас бийпул тестти баслады</i>"
+    ].join("\n");
+  }
+
   if (data.stage === "contact") {
     return [
       "📲 <b>Байланыс усылы таңланды — " + clinic + "</b>",
