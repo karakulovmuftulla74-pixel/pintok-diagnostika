@@ -110,6 +110,49 @@
       </div>
     </section>
 
+    <!-- 1.5. ТЕСТТЕН АЛДЫН АТЫ ҲӘМ НОМЕР КИРГИЗИЎ ЕКРАНЫ -->
+    <section class="screen" id="s-pregate" hidden>
+      <div class="gate" id="pregate-box">
+        <div class="gate-brand">
+          <img src="assets/pintok-icon.png" alt="PINTOK" width="32" height="32">
+          <div>
+            <div class="gb-name"><span data-no-translit="1">PINTOK</span> КЛИНИКАСЫ</div>
+            <div class="gb-sub">Тестти баслаўдан алдын</div>
+          </div>
+        </div>
+
+        <p class="eyebrow">БИЙПУЛ ТЕСТКЕ КИРИЎ</p>
+        <p class="glead">
+          Тестти баслаў ушын атыңыз ҳәм телефон номериңизди жазың.
+          Атыңыз ҳәм номериңизсиз тестке кириў мүмкин емес.
+        </p>
+
+        <div class="field">
+          <label class="flabel" for="pre-name">Атыңыз</label>
+          <input type="text" id="pre-name" name="pre-name" autocomplete="name" placeholder="Атыңызды жазың">
+        </div>
+
+        <div class="field">
+          <label class="flabel" for="pre-phone">Телефон номериңиз</label>
+          <input type="tel" id="pre-phone" name="pre-phone" inputmode="numeric" autocomplete="tel" placeholder="+998 __ ___ __ __">
+        </div>
+
+        <p class="err" id="pre-err" hidden></p>
+
+        <button type="button" class="btn" id="pre-submit">Тестти баслаў →</button>
+
+        <div class="gpriv">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"></path>
+            <path d="M9 12l2 2 4-4"></path>
+          </svg>
+          <span>Мағлыўматларыңыз тек PINTOK клиникасы администраторында қалады ҳәм толық сыр сақланады.</span>
+        </div>
+      </div>
+
+      <button type="button" class="back" id="pre-back">← Бас бетке қайтыў</button>
+    </section>
+
     <!-- 2. ТЕСТ ЕКРАНЫ (10 СОРАЎ) -->
     <section class="screen qwrap" id="s-q" hidden>
       <div class="qhead">
